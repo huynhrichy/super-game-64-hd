@@ -7,6 +7,15 @@ var playState = {
 
 		this.cursor = game.input.keyboard.createCursorKeys();
 
+		game.input.keyboard.addKeyCapture([Phaser.Keyboard.UP],
+			Phaser.Keyboard.DOWN, Phaser.Keyboard.LEFT, Phaser.Keyboard.RIGHT);
+
+		this.wasd = {
+			up: game.input.keyboard.addKey(Phaser.Keyboard.W),
+			left: game.input.keyboard.addKey(Phaser.Keyboard.A),
+			right: game.input.keyboard.addKey(Phaser.Keyboard.D)
+		};
+
 		this.createWorld();
 
 		this.coin = game.add.sprite(60, 140, 'coin');
@@ -14,7 +23,7 @@ var playState = {
 		this.coin.anchor.setTo(0.5, 0.5);
 
 		this.scoreLabel = game.add.text(30, 30, 'score: 0',
-			{ font: '18px Arial', fill: '#ffffff' });
+			{ font: '18px Geo', fill: '#ffffff' });
 		game.global.score = 0;
 
 		this.enemies = game.add.group();
@@ -71,11 +80,11 @@ var playState = {
 			this.playerDie();
 		}
 
-		if (this.cursor.left.isDown) {
+		if (this.cursor.left.isDown || this.wasd.left.isDown) {
 			this.player.body.velocity.x = -200;
 			this.player.animations.play('left');
 		}
-		else if (this.cursor.right.isDown) {
+		else if (this.cursor.right.isDown || this.wasd.right.isDown) {
 			this.player.body.velocity.x = 200;
 			this.player.animations.play('right');
 		}
@@ -85,7 +94,8 @@ var playState = {
 			this.player.frame = 0;
 		}
 
-		if (this.cursor.up.isDown && this.player.body.touching.down) {
+		if (this.cursor.up.isDown /*|| this.wasd.up.isDown */
+			&& this.player.body.touching.down) {
 			this.jumpSound.play();
 			this.player.body.velocity.y = -320;
 		}
