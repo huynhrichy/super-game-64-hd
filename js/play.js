@@ -31,6 +31,14 @@ var playState = {
 
 		this.player.animations.add('right', [1, 2], 8, true);
 		this.player.animations.add('left', [3, 4], 8, true);
+
+		this.emitter = game.add.emitter(0, 0, 50);
+		this.emitter.makeParticles('pixel');
+		this.emitter.setYSpeed(-150, 150); // Speed randomly chosen between
+		this.emitter.setXSpeed(-150, 150);
+		this.emitter.gravity = 0;
+		this.emitter.minParticleScale = 0.2;
+		this.emitter.maxParticleScale = 0.7;
 	},
 
 	update: function() {
@@ -94,9 +102,23 @@ var playState = {
 	},
 
 	playerDie: function() {
+		if (!this.player.alive) {
+			return;
+		}
+
+		this.player.kill();
+
 		this.deadSound.play();
-		game.state.start('menu');
+		this.emitter.x = this.player.x;
+		this.emitter.y = this.player.y;
+		this.emitter.start(true, 600, null, 15);
+		
+		game.time.events.add(1000, this.startMenu, this);
 	}, 
+
+	startMenu: function() {
+		game.state.start('menu');
+	},
 
 	takeCoin: function(player, coin) {
 		this.coinSound.play();
