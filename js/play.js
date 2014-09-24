@@ -20,7 +20,8 @@ var playState = {
 		this.enemies = game.add.group();
 		this.enemies.enableBody = true;
 		this.enemies.createMultiple(10, 'enemy');
-		game.time.events.loop(2200, this.addEnemy, this);
+		//game.time.events.loop(2200, this.addEnemy, this);
+		this.nextEnemy = 0; // for dynamic frequency of enemies
 
 		this.jumpSound = game.add.audio('jump');
 		this.jumpSound.volume = 0.5;
@@ -34,7 +35,7 @@ var playState = {
 
 		this.emitter = game.add.emitter(0, 0, 50);
 		this.emitter.makeParticles('pixel');
-		this.emitter.setYSpeed(-150, 150); // Speed randomly chosen between
+		this.emitter.setYSpeed(-150, 150); // speed randomly chosen between numbers
 		this.emitter.setXSpeed(-150, 150);
 		this.emitter.gravity = 0;
 		this.emitter.minParticleScale = 0.2;
@@ -51,6 +52,18 @@ var playState = {
 		game.physics.arcade.overlap(this.player, this.enemies, this.playerDie, null, this);
 
 		this.movePlayer();
+
+		if (this.nextEnemy < game.time.now) {
+			var easy = 4000, hard = 1000, score = 100;
+
+			// formula to decrease delay between enemy frequency over time
+			// starts at easy then slowly goes to hard
+			// the higher the player's score, the less time between enemy spawns
+			var delay = Math.max(easy - (easy - hard) * game.global.score / score, hard);
+
+			this.addEnemy();
+			this.nextEnemy = game.time.now + delay;
+		}
 	},
 
 	movePlayer: function() {
@@ -109,6 +122,7 @@ var playState = {
 		this.player.kill();
 
 		this.deadSound.play();
+
 		this.emitter.x = this.player.x;
 		this.emitter.y = this.player.y;
 		this.emitter.start(true, 600, null, 15);
