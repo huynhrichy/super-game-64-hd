@@ -77,7 +77,7 @@ var playState = {
 
 	movePlayer: function() {
 		if (!this.player.inWorld) {
-			this.playerDie();
+			this.playerDie("fall");
 		}
 
 		if (this.cursor.left.isDown || this.wasd.left.isDown) {
@@ -124,7 +124,7 @@ var playState = {
 		this.walls.setAll('body.immovable', true);
 	},
 
-	playerDie: function() {
+	playerDie: function(condition) {
 		if (!this.player.alive) {
 			return;
 		}
@@ -133,12 +133,21 @@ var playState = {
 
 		this.deadSound.play();
 
-		this.emitter.x = this.player.x;
-		this.emitter.y = this.player.y;
-		this.emitter.start(true, 600, null, 15);
+		if (condition != "fall") {
+			this.emitter.x = this.player.x;
+			this.emitter.y = this.player.y;
+			this.emitter.start(true, 600, null, 15);
+		}
+
 		
 		game.time.events.add(1000, this.startMenu, this);
 	}, 
+
+	playerExplode: function() {
+		this.emitter.x = this.player.x;
+		this.emitter.y = this.player.y;
+		this.emitter.start(true, 600, null, 15);
+	},
 
 	startMenu: function() {
 		game.state.start('menu');
