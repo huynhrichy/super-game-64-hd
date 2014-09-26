@@ -52,9 +52,12 @@ var playState = {
 	},
 
 	update: function() {
-		game.physics.arcade.collide(this.player, this.walls);
+		// old collisions without tilemap
+		//game.physics.arcade.collide(this.player, this.walls);
+		//game.physics.arcade.collide(this.enemies, this.walls);
 
-		game.physics.arcade.collide(this.enemies, this.walls);
+		game.physics.arcade.collide(this.player, this.layer);
+		game.physics.arcade.collide(this.enemies, this.layer);
 
 		game.physics.arcade.overlap(this.player, this.coin, this.takeCoin, null, this);
 
@@ -102,6 +105,14 @@ var playState = {
 	},
 
 	createWorld: function() {
+		this.map = game.add.tilemap('map');
+		this.map.addTilesetImage('tileset');
+		this.layer = this.map.createLayer('Tile Layer 1');
+		this.layer.resizeWorld();
+		this.map.setCollision(1);
+
+		// old world without tilemap
+		/*
 		this.walls = game.add.group();
 		this.walls.enableBody = true;
 
@@ -122,6 +133,7 @@ var playState = {
 		middleBottom.scale.setTo(1.5, 1);
 
 		this.walls.setAll('body.immovable', true);
+		*/
 	},
 
 	playerDie: function(condition) {
