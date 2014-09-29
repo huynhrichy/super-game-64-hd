@@ -96,12 +96,23 @@ var playState = {
 			this.player.animations.stop();
 			this.player.frame = 0;
 		}
+/*
+		if (this.wasd.up.isDown && this.player.body.onFloor()) {
+			this.jumpSound.play();
+			this.player.body.velocity.y = -320;
+		}*/
 
-		if (this.cursor.up.isDown /*|| this.wasd.up.isDown */
-			&& this.player.body.touching.down) {
+		if ((this.cursor.up.isDown || this.wasd.up.isDown)
+			&& this.player.body.onFloor()) {
 			this.jumpSound.play();
 			this.player.body.velocity.y = -320;
 		}
+
+		// jump for walls
+		//if (this.cursor.up.isDown /*|| this.wasd.up.isDown */
+		//	&& this.player.body.touching.down) {
+		//}
+		
 	},
 
 	createWorld: function() {
