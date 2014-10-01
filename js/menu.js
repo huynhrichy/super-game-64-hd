@@ -39,12 +39,16 @@ var menuState = {
 
 		this.muteButton.input.useHandCursor = true;
 
+		this.startSound = game.add.audio('coin');
+		this.startSound.volume = 0.5;
+
 		if (game.sound.mute) {
 			this.muteButton.frame = 1;
 		}
 	},
 
 	start: function() {
+		this.startSound.play();
 		game.state.start('play');
 	},
 
