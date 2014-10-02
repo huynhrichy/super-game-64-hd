@@ -42,6 +42,11 @@ var menuState = {
 		this.startSound = game.add.audio('coin');
 		this.startSound.volume = 0.5;
 
+		this.music = game.add.audio('music');
+		this.music.volume = 0.25;
+		this.music.loop = true;
+		this.music.play();
+
 		if (game.sound.mute) {
 			this.muteButton.frame = 1;
 		}
