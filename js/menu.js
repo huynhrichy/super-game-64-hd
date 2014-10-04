@@ -8,7 +8,7 @@ var menuState = {
 		game.add.tween(nameLabel).to({y: 80}, 1000).easing(Phaser.Easing.Bounce.Out).start();
 
 		var startText = game.device.desktop ? 
-			'press the up arrow key to start' : 'tap the screen to start';
+			'press the UP arrow key to start' : 'tap the screen to start';
 
 		var startLabel = game.add.text(game.world.centerX, game.world.height - 80,
 			startText, {font: '25px Geo', fill: '#ffffff'});
