@@ -47,7 +47,7 @@ var playState = {
 		this.emitter.setYSpeed(-150, 150); // speed randomly chosen between numbers
 		this.emitter.setXSpeed(-150, 150);
 		this.emitter.gravity = 0;
-		this.emitter.minParticleScale = 0.2;
+		this.emitter.minParticleScale = 0.1;
 		this.emitter.maxParticleScale = 0.7;
 	},
 
