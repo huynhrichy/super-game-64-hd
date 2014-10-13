@@ -250,10 +250,10 @@ var playState = {
 
 		this.rightButton = game.add.sprite(130, 247, 'rightButton');
 		this.rightButton.inputEnabled = true;
-		this.rightButton.events.onInputOver.add(function() {this.moveLeft = true;}, this);
-		this.rightButton.events.onInputOut.add(function() {this.moveLeft = false;}, this);
-		this.rightButton.events.onInputDown.add(function() {this.moveLeft = true;}, this);
-		this.rightButton.events.onInputUp.add(function() {this.moveLeft = false;}, this);
+		this.rightButton.events.onInputOver.add(function() {this.moveRight = true;}, this);
+		this.rightButton.events.onInputOut.add(function() {this.moveRight = false;}, this);
+		this.rightButton.events.onInputDown.add(function() {this.moveRight = true;}, this);
+		this.rightButton.events.onInputUp.add(function() {this.moveRight = false;}, this);
 		this.rightButton.alpha = 0.5;
 
 	},
