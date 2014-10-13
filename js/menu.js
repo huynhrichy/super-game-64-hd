@@ -2,12 +2,14 @@ var menuState = {
 	create: function() {
 		game.add.image(0, 0, 'background');
 
+		this.onDesktop = game.device.desktop;
+
 		var nameLabel = game.add.text(game.world.centerX, -50, 'SUPER GAME 64 HD',
 			{font: '63px Geo', fill: '#ffffff'});
 		nameLabel.anchor.setTo(0.5, 0.5);
 		game.add.tween(nameLabel).to({y: 80}, 1000).easing(Phaser.Easing.Bounce.Out).start();
 
-		var startText = game.device.desktop ? 
+		var startText = this.onDesktop ? 
 			'press the UP arrow key to start' : 'tap the screen to start';
 
 		var startLabel = game.add.text(game.world.centerX, game.world.height - 80,
@@ -17,9 +19,7 @@ var menuState = {
 
 		var upKey = game.input.keyboard.addKey(Phaser.Keyboard.UP);
 
-		upKey.onDown.addOnce(this.start, this);
-
-		game.input.onDown.addOnce(this.start, this);
+		this.onDesktop ? upKey.onDown.addOnce(this.start, this) : game.input.onDown.addOnce(this.start, this);
 
 		if (!localStorage.getItem('bestScore')) {
 			localStorage.setItem('bestScore', 0);
@@ -41,11 +41,6 @@ var menuState = {
 
 		this.startSound = game.add.audio('coin');
 		this.startSound.volume = 0.5;
-
-		this.music = game.add.audio('music');
-		this.music.volume = 0.25;
-		this.music.loop = true;
-		this.music.play();
 
 		if (game.sound.mute) {
 			this.muteButton.frame = 1;
